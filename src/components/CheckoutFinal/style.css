@@ -1,0 +1,36 @@
+.checkout{
+    background-color: white;
+    margin-left: 25%;
+    margin-top:10%;
+}
+#title{
+    color:blue;
+}
+#main{
+    padding-left:20%
+}
+#auth{
+    padding-left:20%;
+}
+#login{
+    text-align: center;
+    margin-left: 4%;
+
+}
+
+#guest{
+    text-align: center;
+}
+.button {
+    background-color: white;
+  color: black;
+  border: 2px solid #4CAF50; /* Green */
+  }
+  form {
+	background: #fff;
+	padding: 4em 4em 2em;
+	max-width: 600px;
+	box-shadow: 0 0 1em #222;
+	border-radius: 5px;
+}
+a { color: inherit; } 
