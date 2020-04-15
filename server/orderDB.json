@@ -815,7 +815,36 @@
         "currencyFormat": "$"
       },
       "status": 0
+    },
+    {
+      "id": 17,
+      "products": [
+        {
+          "id": 15,
+          "sku": "milk",
+          "title": "Milk",
+          "description": "4 MSL",
+          "availableSizes": [
+            "Dairy"
+          ],
+          "style": "Organic and Nutritious",
+          "price": 5.99,
+          "installments": 0,
+          "currencyId": "USD",
+          "currencyFormat": "$",
+          "isFreeShipping": false,
+          "quantity": 6
+        }
+      ],
+      "total": {
+        "productQuantity": 6,
+        "installments": 0,
+        "totalPrice": 35.94,
+        "currencyId": "USD",
+        "currencyFormat": "$"
+      },
+      "status": 0
     }
   ],
-  "count": 16
+  "count": 17
 }

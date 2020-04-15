@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router-dom'
-import axios from 'axios'
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { loadCart, removeProduct } from '../../services/cart/actions';
 import { updateCart } from '../../services/total/actions';
@@ -11,30 +11,33 @@ import { formatPrice } from '../../services/util';
 import './style.scss';
 
 class FloatCart extends Component {
-  
   static propTypes = {
     loadCart: PropTypes.func.isRequired,
     updateCart: PropTypes.func.isRequired,
     cartProducts: PropTypes.array.isRequired,
     newProduct: PropTypes.object,
     removeProduct: PropTypes.func,
-    productToRemove: PropTypes.object
+    productToRemove: PropTypes.object,
   };
 
   state = {
     isOpen: false,
-    cartProducts:this.props
+    cartProducts: this.props,
   };
   sendToCheckout = (id) => {
-    this.props.history.push(`/checkout/?id=${id}`)
-  }
+    this.props.history.push(`/checkout/?id=${id}`);
+  };
   createNewOrder = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:40/api/order/new', { products: this.props.cartProducts, total:this.props.cartTotal})
-    .then(res=> {
-      this.sendToCheckout(res.data)
-    })
-  }
+    axios
+      .post('http://localhost:40/api/order/new', {
+        products: this.props.cartProducts,
+        total: this.props.cartTotal,
+      })
+      .then((res) => {
+        this.sendToCheckout(res.data);
+      });
+  };
   componentWillReceiveProps(nextProps) {
     if (nextProps.newProduct !== this.props.newProduct) {
       this.addProduct(nextProps.newProduct);
@@ -48,16 +51,16 @@ class FloatCart extends Component {
   openFloatCart = () => {
     this.setState({ isOpen: true });
   };
-  
+
   closeFloatCart = () => {
     this.setState({ isOpen: false });
   };
 
-  addProduct = product => {
+  addProduct = (product) => {
     const { cartProducts, updateCart } = this.props;
     let productAlreadyInCart = false;
 
-    cartProducts.forEach(cp => {
+    cartProducts.forEach((cp) => {
       if (cp.id === product.id) {
         cp.quantity += product.quantity;
         productAlreadyInCart = true;
@@ -72,10 +75,10 @@ class FloatCart extends Component {
     this.openFloatCart();
   };
 
-  removeProduct = product => {
+  removeProduct = (product) => {
     const { cartProducts, updateCart } = this.props;
 
-    const index = cartProducts.findIndex(p => p.id === product.id);
+    const index = cartProducts.findIndex((p) => p.id === product.id);
     if (index >= 0) {
       cartProducts.splice(index, 1);
       updateCart(cartProducts);
@@ -87,27 +90,25 @@ class FloatCart extends Component {
       totalPrice,
       productQuantity,
       currencyFormat,
-      currencyId
+      currencyId,
     } = this.props.cartTotal;
 
     if (!productQuantity) {
       alert('Add some product in the cart!');
     } else {
-      
       alert(
         `Checkout - Subtotal: ${currencyFormat} ${formatPrice(
           totalPrice,
           currencyId
         )}`
       );
-      
     }
   };
 
   render() {
     const { cartTotal, cartProducts, removeProduct } = this.props;
 
-    const products = cartProducts.map(p => {
+    const products = cartProducts.map((p) => {
       return (
         <CartProduct product={p} removeProduct={removeProduct} key={p.id} />
       );
@@ -181,7 +182,7 @@ class FloatCart extends Component {
               </small>
             </div>
             <div className="buy-btn">
-               <p onClick={this.createNewOrder}>Checkout</p>
+              <p>Checkout</p>
             </div>
           </div>
         </div>
@@ -190,14 +191,15 @@ class FloatCart extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   cartProducts: state.cart.products,
   newProduct: state.cart.productToAdd,
   productToRemove: state.cart.productToRemove,
-  cartTotal: state.total.data
+  cartTotal: state.total.data,
 });
 
-export default connect(
-  mapStateToProps,
-  { loadCart, updateCart, removeProduct }
-)(withRouter(FloatCart));
+export default connect(mapStateToProps, {
+  loadCart,
+  updateCart,
+  removeProduct,
+})(withRouter(FloatCart));
